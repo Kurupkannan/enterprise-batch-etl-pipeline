@@ -1,79 +1,52 @@
--- ============================================
--- GOLD LAYER : DATA WAREHOUSE (STAR SCHEMA)
--- ============================================
-
--- =========================
 -- DIMENSION: DATE
--- =========================
 CREATE TABLE IF NOT EXISTS dim_date (
-    date_key        INT PRIMARY KEY,        -- YYYYMMDD
-    full_date       DATE NOT NULL,
-    day             INT,
-    month           INT,
-    month_name      VARCHAR(20),
-    year            INT,
-    quarter         INT,
-    day_of_week     INT,
-    day_name        VARCHAR(20)
+    date_key        INTEGER PRIMARY KEY,
+    full_date       TEXT,
+    day             INTEGER,
+    month           INTEGER,
+    month_name      TEXT,
+    year            INTEGER,
+    quarter         INTEGER,
+    day_of_week     INTEGER,
+    day_name        TEXT
 );
 
--- =========================
 -- DIMENSION: PRODUCT
--- =========================
 CREATE TABLE IF NOT EXISTS dim_product (
-    product_key     SERIAL PRIMARY KEY,
-    product_id      VARCHAR(50) UNIQUE,
-    product_name    VARCHAR(255)
+    product_key     INTEGER PRIMARY KEY AUTOINCREMENT,
+    product_id      TEXT UNIQUE,
+    product_name    TEXT
 );
 
--- =========================
 -- DIMENSION: CUSTOMER
--- =========================
 CREATE TABLE IF NOT EXISTS dim_customer (
-    customer_key    SERIAL PRIMARY KEY,
-    customer_id     INT UNIQUE
+    customer_key    INTEGER PRIMARY KEY AUTOINCREMENT,
+    customer_id     INTEGER UNIQUE
 );
 
--- =========================
 -- DIMENSION: COUNTRY
--- =========================
 CREATE TABLE IF NOT EXISTS dim_country (
-    country_key     SERIAL PRIMARY KEY,
-    country_name    VARCHAR(100) UNIQUE
+    country_key     INTEGER PRIMARY KEY AUTOINCREMENT,
+    country_name    TEXT UNIQUE
 );
 
--- =========================
 -- FACT: SALES
--- =========================
 CREATE TABLE IF NOT EXISTS fact_sales (
-    sales_key           SERIAL PRIMARY KEY,
+    sales_key           INTEGER PRIMARY KEY AUTOINCREMENT,
+    transaction_id      TEXT,
 
-    transaction_id      VARCHAR(50),
+    date_key            INTEGER,
+    product_key         INTEGER,
+    customer_key        INTEGER,
+    country_key         INTEGER,
 
-    date_key            INT,
-    product_key         INT,
-    customer_key        INT,
-    country_key         INT,
+    quantity            INTEGER,
+    unit_price          REAL,
+    revenue             REAL,
+    transaction_status  TEXT,
 
-    quantity            INT,
-    unit_price          DECIMAL(10, 2),
-    revenue             DECIMAL(12, 2),
-    transaction_status  VARCHAR(20),
-
-    -- Foreign Keys
-    CONSTRAINT fk_date
-        FOREIGN KEY (date_key)
-        REFERENCES dim_date (date_key),
-
-    CONSTRAINT fk_product
-        FOREIGN KEY (product_key)
-        REFERENCES dim_product (product_key),
-
-    CONSTRAINT fk_customer
-        FOREIGN KEY (customer_key)
-        REFERENCES dim_customer (customer_key),
-
-    CONSTRAINT fk_country
-        FOREIGN KEY (country_key)
-        REFERENCES dim_country (country_key)
+    FOREIGN KEY (date_key) REFERENCES dim_date(date_key),
+    FOREIGN KEY (product_key) REFERENCES dim_product(product_key),
+    FOREIGN KEY (customer_key) REFERENCES dim_customer(customer_key),
+    FOREIGN KEY (country_key) REFERENCES dim_country(country_key)
 );

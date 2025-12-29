@@ -1,0 +1,6 @@
+warehouse:
+  type: sqlite
+  database: warehouse/db/analytics.db
+
+paths:
+  curated_transactions: data/curated/transactions
