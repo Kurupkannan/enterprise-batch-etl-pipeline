@@ -95,7 +95,7 @@ PROJECT_ROOT = "/mnt/c/Users/YourName/path/to/enterprise-transaction-etl"
 You need to run the Airflow **Scheduler** and **Webserver** to execute the pipeline.
 
 ### Terminal 1: Scheduler
-Contentiously checks for tasks to run.
+ Continuously checks for tasks to run.
 ```bash
 source .venv/bin/activate
 export AIRFLOW_HOME=$(pwd)/airflow
