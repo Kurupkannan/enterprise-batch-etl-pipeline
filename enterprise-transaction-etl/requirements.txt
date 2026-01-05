@@ -1,2 +1,4 @@
 py4j==0.10.9.7
 pyspark==3.5.3
+pandas>=2.0.0
+openpyxl>=3.0.0
